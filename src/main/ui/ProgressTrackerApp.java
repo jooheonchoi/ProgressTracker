@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 // User interface for the ProgressTracker.
 
-//*** I had the idea of the ProgressTracker last term when I took this course, but only wrote < 10 lines of code.
+//** I had the idea of the ProgressTracker last term when I took this course, but only wrote < 10 lines of code.
 //      I withdrew from the course and am now using this idea again using brand new code.
 //      HOWEVER, some classes will inevitably have the same name; I got the OK from the instructor about this.
 
