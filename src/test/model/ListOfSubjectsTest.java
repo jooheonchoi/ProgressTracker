@@ -45,9 +45,13 @@ public class ListOfSubjectsTest {
 
     @Test
     void testRemoveSubject() {
-        los1.removeSubject("second");
+        los1.addSubject(s1);
+        los1.addSubject(s2);
+        assertEquals(-1, los1.removeSubject("third"));
+        assertEquals(1, los1.removeSubject("second"));
         assertFalse(los1.getListOfSubjects().contains(s2));
-        los1.removeSubject("first");
+        assertEquals(1, los1.removeSubject("first"));
+        assertFalse(los1.getListOfSubjects().contains(s1));
         assertTrue(los1.isEmpty());
     }
 }

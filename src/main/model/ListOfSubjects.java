@@ -29,12 +29,13 @@ public class ListOfSubjects {
 
     // MODIFIES: this
     // EFFECTS: remove a subject with given name; if no such subject exists, don't do anything
-    public void removeSubject(String name) {
+    public int removeSubject(String name) {
         for (Subject next : listOfSubjects) {
             if (name.equals(next.getName())) {
                 listOfSubjects.remove(next);
-                return;
+                return 1;
             }
         }
+        return -1;
     }
 }
