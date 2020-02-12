@@ -23,6 +23,7 @@ public class ProgressTrackerApp {
         System.out.println("Track your progress with the ProgressTracker!");
 
         while (keepGoing) {
+
             displayAllSubjects();
             System.out.println("\na -> Add subject");
             System.out.println("q -> Exit");
