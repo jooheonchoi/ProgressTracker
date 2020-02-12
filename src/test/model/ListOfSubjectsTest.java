@@ -16,6 +16,8 @@ public class ListOfSubjectsTest {
     @BeforeEach
     void runBefore() {
         los1 = new ListOfSubjects();
+        s1 = new Subject("first");
+        s2 = new Subject("second");
     }
 
     @Test
@@ -38,6 +40,14 @@ public class ListOfSubjectsTest {
 
     @Test
     void testIsEmpty() {
+        assertTrue(los1.isEmpty());
+    }
+
+    @Test
+    void testRemoveSubject() {
+        los1.removeSubject("second");
+        assertFalse(los1.getListOfSubjects().contains(s2));
+        los1.removeSubject("first");
         assertTrue(los1.isEmpty());
     }
 }

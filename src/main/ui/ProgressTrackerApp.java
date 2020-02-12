@@ -30,10 +30,7 @@ public class ProgressTrackerApp {
 
         while (keepGoing) {
 
-            displayAllSubjects();
-            System.out.println("\na -> Add subject");
-            System.out.println("q -> Exit");
-            System.out.println("Type subject name -> View subject");
+            displayMenu(); // from TellerApp
             command = input.nextLine();
             if (command.equals("q")) {
                 keepGoing = false;
@@ -48,6 +45,9 @@ public class ProgressTrackerApp {
         if (command.equals("a")) {
             addNewSubject();
             return;
+        } else if (command.equals("r")) {
+            removeSubject();
+            return;
         } else {
             for (Subject next : listOfSubjects.getListOfSubjects()) {
                 if (command.equals(next.getName())) {
@@ -57,6 +57,28 @@ public class ProgressTrackerApp {
             }
         }
         System.out.println("Enter valid command!");
+    }
+
+    private void removeSubject() {
+        if (listOfSubjects.isEmpty()) {
+            System.out.println("No subjects yet!");
+        } else {
+            String command = "";
+            while (!((command.equals("q")))) {
+                System.out.println("Type name of subject to be removed:");
+                System.out.println("q - > back");
+                command = input.nextLine();
+
+                for (Subject next : listOfSubjects.getListOfSubjects()) {
+                    if (command.equals(next.getName())) {
+                        listOfSubjects.getListOfSubjects().remove(next);
+                        System.out.println("Removed " + next.getName() + "!");
+                        return;
+                    }
+                }
+                System.out.println(command + " not found!");
+            }
+        }
     }
 
     private void viewSubject(Subject subject) {
@@ -118,7 +140,7 @@ public class ProgressTrackerApp {
         viewSubject(newSubject);
     }
 
-    private void displayAllSubjects() {
+    private void displayMenu() {
         if (listOfSubjects.isEmpty()) {
             System.out.println("Nothing added yet");
         } else {
@@ -126,5 +148,9 @@ public class ProgressTrackerApp {
                 System.out.println(next.getName());
             }
         }
+        System.out.println("\nType subject name -> View subject");
+        System.out.println("a -> Add subject");
+        System.out.println("r -> Remove subject");
+        System.out.println("q -> Exit");
     }
 }
