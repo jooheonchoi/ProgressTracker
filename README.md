@@ -1,11 +1,22 @@
-# My Personal Project
+# ProgressTracker 
 
-## A subtitle
+## Introduction
 
-A *bulleted* list:
-- item 1
-- item 2
-- item 3
+I found that people nowadays either have few real hobbies or have too many interests for which they don't have the 
+time. But for me, a lot of time is wasted every day by being distracted by social media and other mundanities of 
+everyday life, time that could be used to better oneself.
 
-An example of text with **bold** and *italic* fonts.  Note that the IntelliJ markdown previewer doesn't seem to render 
-the bold and italic fonts correctly but they will appear correctly on GitHub.
+The *ProgressTracker* can help in pursuing new interests, improving in their hobbies, or honing their skills. With a
+log of weekly updates, and setting short-term and long-term goals for each subject, the *ProgressTracker* provides
+organization and planning that allows for us to track how we are doing and improve efficiently and consistently.
+
+
+## User Stories
+
+### Phase 1
+
+As a user, I want to be able to
+- add a subject of interest to my collection
+-  set a long-term goal and a description of how it'll be achieved for each interest 
+- add an update to a list of updates for each interest, with a description of progress and the goal for the next 
+update
