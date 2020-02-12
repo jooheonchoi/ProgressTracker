@@ -1,13 +1,13 @@
 package model;
 
-// Represents an update on progress
+// Represents an update on progress.
 public class Update {
     private String report;
     private String nextGoal;
 
     public Update(String report, String nextGoal) {
-        report = null;
-        nextGoal = null;
+        this.report = report;
+        this.nextGoal = nextGoal;
     }
 
     // MODIFIES: this

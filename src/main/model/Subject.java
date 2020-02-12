@@ -1,36 +1,40 @@
 package model;
 
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.LinkedList;
 
 // A subject of interest
+// * Please see note at top of ProgressTrackerApp
 public class Subject {
     private String name;
     private LinkedList<Update> updateLog;
-    private String longTermGoal;
+    private String bigGoal;
 
     public Subject(String name) {
         this.name = name;
         updateLog = new LinkedList<Update>();
-        longTermGoal = "";
+        bigGoal = "";
     }
 
     // MODIFIES: this
     // EFFECTS: change the name of subject
-    public void changeName(String newName) {
+    public void setName(String newName) {
         this.name = newName;
     }
 
     // MODIFIES: this
     // EFFECTS: set the long term goal
-    public void setLongTermGoal(String longTermGoal) {
-        this.longTermGoal = longTermGoal;
+    public void setBigGoal(String bigGoal) {
+        this.bigGoal = bigGoal;
     }
 
     // EFFECTS: return the name
     public String getName() {
         return name;
+    }
+
+    // EFFECTS: return the long term goal date
+    public String getBigGoal() {
+        return bigGoal;
     }
 
     // EFFECTS: return the update log
@@ -44,22 +48,15 @@ public class Subject {
         updateLog.addFirst(update);
     }
 
-    // MODIFIES: this
-    // EFFECTS: remove an update from the log
-    public void removeUpdate(Update update) {
-        updateLog.remove(update);
-    }
+//    // MODIFIES: this
+//    // EFFECTS: remove an update from the log
+//    public void removeUpdate(Update update) {
+//        updateLog.remove(update);
+//    }
 
-    //EFFECTS: returns last update
-    public Update getLatestUpdate() {
-        return updateLog.getFirst();
-    }
-
-    // EFFECTS: return the long term goal date
-    public String getLongTermGoal() {
-        return longTermGoal;
-    }
-
-
+//    //EFFECTS: returns last update
+//    public Update getLatestUpdate() {
+//        return updateLog.getFirst();
+//    }
 }
 

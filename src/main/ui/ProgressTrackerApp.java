@@ -6,6 +6,12 @@ import model.Update;
 
 import java.util.Scanner;
 
+// User interface for the ProgressTracker.
+
+//*** I had the idea of the ProgressTracker last term when I took this course, but only wrote < 10 lines of code.
+//      I withdrew from the course and am now using this idea again using brand new code.
+//      HOWEVER, some classes will inevitably have the same name; I got the OK from the instructor about this.
+
 public class ProgressTrackerApp {
     private Scanner input;
     private ListOfSubjects listOfSubjects;
@@ -27,7 +33,7 @@ public class ProgressTrackerApp {
             displayAllSubjects();
             System.out.println("\na -> Add subject");
             System.out.println("q -> Exit");
-            System.out.println("(Type subject name) -> View subject");
+            System.out.println("Type subject name -> View subject");
             command = input.nextLine();
             if (command.equals("q")) {
                 keepGoing = false;
@@ -77,9 +83,9 @@ public class ProgressTrackerApp {
 
     private void displaySubject(Subject subject) {
         System.out.println(subject.getName());
-        System.out.println("Current Goal: " + subject.getLongTermGoal() + "\n");
+        System.out.println("Current Goal: " + subject.getBigGoal() + "\n");
         for (Update update : subject.getUpdateLog()) {
-            System.out.println(update.getReport() + "//" + update.getNextGoal());
+            System.out.println(update.getReport() + "\t||\t" + update.getNextGoal());
         }
     }
 
@@ -99,7 +105,7 @@ public class ProgressTrackerApp {
     private void goalSetter(Subject subject) {
         System.out.println("Set a goal:");
         String goal = input.nextLine();
-        subject.setLongTermGoal(goal);
+        subject.setBigGoal(goal);
         System.out.println("Goal set!");
     }
 

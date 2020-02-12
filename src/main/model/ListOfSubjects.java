@@ -2,6 +2,7 @@ package model;
 
 import java.util.LinkedList;
 
+// A list of subjects.
 public class ListOfSubjects {
     private LinkedList<Subject> listOfSubjects;
 
@@ -26,16 +27,14 @@ public class ListOfSubjects {
         return (listOfSubjects.isEmpty());
     }
 
-    // MODIFIES: this
-    // EFFECTS: remove a subject with given name; if no such subject exists, don't do anything
-    public void removeSubject(String name) {
-        for (Subject next : listOfSubjects) {
-            if (name.equals(next.getName())) {
-                listOfSubjects.remove(next);
-                return;
-            }
-        }
-    }
-
-
+//    // MODIFIES: this
+//    // EFFECTS: remove a subject with given name; if no such subject exists, don't do anything
+//    public void removeSubject(String name) {
+//        for (Subject next : listOfSubjects) {
+//            if (name.equals(next.getName())) {
+//                listOfSubjects.remove(next);
+//                return;
+//            }
+//        }
+//    }
 }

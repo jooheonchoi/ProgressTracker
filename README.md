@@ -16,7 +16,8 @@ organization and planning that allows for us to track how we are doing and impro
 ### Phase 1
 
 As a user, I want to be able to
-- add a subject of interest to my collection
--  set a long-term goal and a description of how it'll be achieved for each interest 
-- add an update to a list of updates for each interest, with a description of progress and the goal for the next 
+- add a subject of interest to my collection based on recency
+- remove a subject from my collection
+-  set a long-term goal for each subject
+- add an update to a list of updates for each subject, with a description of progress and the goal for the next 
 update
