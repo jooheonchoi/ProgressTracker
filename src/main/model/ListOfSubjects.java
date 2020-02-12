@@ -13,5 +13,13 @@ public class ListOfSubjects {
         listOfSubjects.addFirst(subject);
     }
 
+    public LinkedList<Subject> getListOfSubjects() {
+        return listOfSubjects;
+    }
+
+    public boolean isEmpty() {
+        return (listOfSubjects.isEmpty());
+    }
+
 
 }
