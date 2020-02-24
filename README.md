@@ -21,3 +21,10 @@ As a user, I want to be able to
 -  set a long-term goal for each subject
 - add an update to a list of updates for each subject, with a description of progress and the goal for the next 
 update
+
+
+### Phase 2
+
+As a user, I want to be able to
+- save my list of subjects and their progress logs 
+- optionally load my subjects and their progress logs
