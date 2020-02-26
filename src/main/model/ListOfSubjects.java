@@ -1,10 +1,14 @@
 package model;
 
+import persistence.Saveable;
+
+import java.io.PrintWriter;
 import java.util.LinkedList;
 
 // A list of subjects.
 public class ListOfSubjects {
     private LinkedList<Subject> listOfSubjects;
+    private String creatorName;
 
     // EFFECTS: constructs a new list of subjects
     public ListOfSubjects() {
@@ -39,3 +43,11 @@ public class ListOfSubjects {
         return -1;
     }
 }
+
+//    @Override
+//    public void save(PrintWriter printWriter) {
+//        printWriter.print(creatorName);
+//        printWriter.print(Reader.DELIMITER);
+//        printWriter.print(listOfSubjects);
+
+
