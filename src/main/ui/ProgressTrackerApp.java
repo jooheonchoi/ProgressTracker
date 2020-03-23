@@ -3,7 +3,10 @@ package ui;
 import model.ListOfSubjects;
 import model.Subject;
 import model.Update;
+import persistence.Reader;
+import persistence.Saver;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 // User interface for the ProgressTracker.
@@ -15,9 +18,9 @@ import java.util.Scanner;
 public class ProgressTrackerApp {
     private Scanner input;
     private ListOfSubjects listOfSubjects;
+    private static final String DATA_FILE = "data/ProgressTracker.json";
 
     public ProgressTrackerApp() {
-        listOfSubjects = new ListOfSubjects();
         runApp();
     }
 
@@ -28,17 +31,74 @@ public class ProgressTrackerApp {
 
         System.out.println("Track your progress with the ProgressTracker!");
 
+        loadOption();
+
         while (keepGoing) {
 
             displayMenu(); // from TellerApp
             command = input.nextLine();
             if (command.equals("q")) {
+                saveOption();
                 keepGoing = false;
             } else {
                 processCommand(command);
             }
         }
         System.out.println("\nSee you next time!");
+    }
+
+    public void saveOption() {
+        String command = "";             // from TellerApp
+        while (!((command.equals("y") || (command.equals("n"))))) {
+            System.out.println("Save to file?");
+            System.out.println("y -> yes");
+            System.out.println("n -> no");
+            command = input.nextLine();
+            if (command.equals("y")) {
+                try {
+                    Saver.saveListOfSubject(listOfSubjects, DATA_FILE);
+                    return;
+                } catch (IOException e) {
+                    System.out.println("File doesn't exist");
+                    return;
+                }
+            }
+            if (command.equals("n")) {
+                return;
+
+
+            }
+        }
+    }
+
+    public void loadOption() {
+        String command = "";             // from TellerApp
+        while (!((command.equals("y") || (command.equals("n"))))) {
+            System.out.println("Load from file?");
+            System.out.println("y -> yes");
+            System.out.println("n -> no");
+            command = input.nextLine();
+            if (command.equals("y")) {
+                try {
+                    listOfSubjects = Reader.reader(DATA_FILE);
+                    return;
+                } catch (IOException e) {
+                    System.out.println("Nothing in file");
+                    init();
+                    return;
+                }
+            }
+            if (command.equals("n")) {
+                System.out.println("Initializing");
+                init();
+                return;
+            }
+        }
+    }
+
+
+    public void init() {
+        listOfSubjects = new ListOfSubjects();
     }
 
     private void processCommand(String command) {
@@ -141,12 +201,16 @@ public class ProgressTrackerApp {
     }
 
     private void displayMenu() {
-        if (listOfSubjects.isEmpty()) {
-            System.out.println("Nothing added yet");
-        } else {
-            for (Subject next : listOfSubjects.getListOfSubjects()) {
-                System.out.println(next.getName());
+        try {
+            if (listOfSubjects.isEmpty()) {
+                System.out.println("Nothing added yet");
+            } else {
+                for (Subject next : listOfSubjects.getListOfSubjects()) {
+                    System.out.println(next.getName());
+                }
             }
+        } catch (NullPointerException e) {
+            init();
         }
         System.out.println("\nType subject name -> View subject");
         System.out.println("a -> Add subject");

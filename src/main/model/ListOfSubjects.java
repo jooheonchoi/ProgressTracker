@@ -1,29 +1,30 @@
 package model;
 
-import persistence.Saveable;
-
-import java.io.PrintWriter;
 import java.util.LinkedList;
 
-// A list of subjects.
+// A list of subjects of a given user.
 public class ListOfSubjects {
     private LinkedList<Subject> listOfSubjects;
-    private String creatorName;
 
     // EFFECTS: constructs a new list of subjects
     public ListOfSubjects() {
         listOfSubjects = new LinkedList<Subject>();
     }
 
-    // MODIFIES: this
-    // EFFECTS: add a subject to the beginning of the list
-    public void addSubject(Subject subject) {
-        listOfSubjects.addFirst(subject);
-    }
+//    // EFFECTS: returns username
+//    public String getUserName() {
+//        return userName;
+//    }
 
     // EFFECTS: returns list of subjects
     public LinkedList<Subject> getListOfSubjects() {
         return listOfSubjects;
+    }
+
+    // MODIFIES: this
+    // EFFECTS: add a subject to the beginning of the list
+    public void addSubject(Subject subject) {
+        listOfSubjects.addFirst(subject);
     }
 
     // EFFECTS: return true if the list of subjects is empty
@@ -44,10 +45,31 @@ public class ListOfSubjects {
     }
 }
 
-//    @Override
-//    public void save(PrintWriter printWriter) {
-//        printWriter.print(creatorName);
-//        printWriter.print(Reader.DELIMITER);
-//        printWriter.print(listOfSubjects);
+//    public void save() {
+//        JSONObject obj = new JSONObject();
+//        JSONArray list = new JSONArray();
+//
+//        obj.put("name", userName);
+//        obj.put("list", list);
+//
+//        for (Subject next : getListOfSubjects()) {
+//             JSONObject subjectObject = new JSONObject();
+//             subjectObject.put("subject", next.getName());
+//             subjectObject.put("bigGoal", next.getBigGoal());
+//             JSONArray updateList = new JSONArray();
+//             for (Update update : next.getUpdateLog()) {
+//                 updateList.add(update);
+//             }
+//             subjectObject.put("updateLog", updateList);
+//        }
+//        try (FileWriter file = new FileWriter("test1.json")) {
+//            file.write(obj.toString());
+//            file.flush();
+//        } catch (IOException e) {
+//            System.out.println("didn't work");
+//        }
+//    }
+
+
 
 
