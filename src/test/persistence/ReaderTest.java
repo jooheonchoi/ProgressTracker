@@ -12,11 +12,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ReaderTest {
 
+    private static final String TEST_FILE = "data/test1.json";
+
 
     @Test
     void testReaderExceptionNotThrown() {
         try {
-            ListOfSubjects listOfSubjects = Reader.reader("data/test1.json");
+            ListOfSubjects listOfSubjects = Reader.reader(TEST_FILE);
             Subject subject = listOfSubjects.getListOfSubjects().getFirst();
             assertEquals("math", subject.getName());
             assertEquals("good", subject.getUpdateLog().getFirst().getReport());
@@ -32,6 +34,7 @@ public class ReaderTest {
     void testIOException() {
         try {
             Reader.reader("nonexistentfile.json");
+            fail("Exception should have been thrown");
         } catch (IOException e) {
             // expected
         }

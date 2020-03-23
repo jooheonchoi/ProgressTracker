@@ -1,5 +1,6 @@
 package ui;
 
+import com.sun.xml.internal.ws.api.model.wsdl.WSDLFault;
 import model.ListOfSubjects;
 import model.Subject;
 import model.Update;
@@ -89,7 +90,6 @@ public class ProgressTrackerApp {
                 }
             }
             if (command.equals("n")) {
-                System.out.println("Initializing");
                 init();
                 return;
             }
@@ -98,6 +98,7 @@ public class ProgressTrackerApp {
 
 
     public void init() {
+        System.out.println("Initializing..");
         listOfSubjects = new ListOfSubjects();
     }
 
@@ -201,17 +202,16 @@ public class ProgressTrackerApp {
     }
 
     private void displayMenu() {
-        try {
-            if (listOfSubjects.isEmpty()) {
-                System.out.println("Nothing added yet");
-            } else {
-                for (Subject next : listOfSubjects.getListOfSubjects()) {
-                    System.out.println(next.getName());
-                }
-            }
-        } catch (NullPointerException e) {
+        if (listOfSubjects == null) {
             init();
+        } else if (listOfSubjects.isEmpty()) {
+            System.out.println("Nothing added yet");
+        } else {
+            for (Subject next : listOfSubjects.getListOfSubjects()) {
+                System.out.println(next.getName());
+            }
         }
+
         System.out.println("\nType subject name -> View subject");
         System.out.println("a -> Add subject");
         System.out.println("r -> Remove subject");

@@ -35,7 +35,8 @@ public class SaverTest {
         try {
             Saver.saveListOfSubject(listOfSubjects, TEST_FILE);
 
-            Reader.reader(TEST_FILE);
+            listOfSubjects = Reader.reader(TEST_FILE);
+            subject = listOfSubjects.getListOfSubjects().getFirst();
             assertEquals("math", subject.getName());
             assertEquals("good", subject.getUpdateLog().getFirst().getReport());
             assertEquals("better", subject.getUpdateLog().getFirst().getNextGoal());
@@ -46,14 +47,4 @@ public class SaverTest {
 
 
     }
-
-    @Test
-    void testSaverExceptionThrown() {
-        try {
-            Saver.saveListOfSubject(listOfSubjects, "nonexistentfile.json");
-        } catch (IOException e) {
-            //Expected
-        }
-    }
-
 }

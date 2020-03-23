@@ -3,6 +3,7 @@ package persistence;
 import com.google.gson.Gson;
 import model.ListOfSubjects;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -11,9 +12,12 @@ public class Saver {
 
     public static void saveListOfSubject(ListOfSubjects listOfSubjects, String fileName) throws IOException {
         Gson gson = new Gson();
-        gson.toJson(listOfSubjects, new FileWriter(fileName)); // Inspired by gson tutorial by mkyoung
+        FileWriter fileWriter = new FileWriter(fileName);
+        gson.toJson(listOfSubjects, fileWriter);
+        fileWriter.flush(); // Inspired by tutorial by mkyoung
     }
 }
+
 
 //        String serialized = gson.toJson(listOfSubjects);
 //        try {
@@ -23,4 +27,6 @@ public class Saver {
 //        } catch (IOException e) {
 //            e.printStackTrace();
 //        }
+//    }
+//}
 
