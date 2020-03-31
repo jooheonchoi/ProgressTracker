@@ -2,6 +2,10 @@ package ui;
 
 public class Main {
     public static void main(String[] args) {
-        new ProgressTrackerApp();
+        javax.swing.SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                new ProgressTracker();
+            }
+        });
     }
 }
