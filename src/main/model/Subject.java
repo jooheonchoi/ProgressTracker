@@ -9,6 +9,7 @@ public class Subject {
     private LinkedList<Update> updateLog;
     private String bigGoal;
 
+    // EFFECTS: Constructs a subject with given name.
     public Subject(String name) {
         this.name = name;
         updateLog = new LinkedList<Update>();

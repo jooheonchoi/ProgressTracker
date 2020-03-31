@@ -2,6 +2,7 @@ package ui;
 
 import model.ListOfSubjects;
 import model.Subject;
+import model.Update;
 import persistence.Reader;
 import ui.tools.ListOfSubjectTool;
 import ui.tools.SubjectTool;
@@ -15,16 +16,16 @@ import javax.swing.*;
 
 
 // User interface for the ProgressTracker.
-
+// WIth GUI after P3.
 //** I had the idea of the ProgressTracker last term when I took this course, but only wrote < 10 lines of code.
 //      I withdrew from the course and am now using this idea again using brand new code.
 //      HOWEVER, some classes will inevitably have the same name; I got the OK from the instructor about this.
-
 public class ProgressTracker extends JFrame {
 
     private ListOfSubjects listOfSubjects;
     private static final int FRAME_WIDTH = 600;
     private static final int FRAME_HEIGHT = 700;
+    private static final int TEXTFIELD_WIDTH = 40;
 
     private JPanel mainPanel;
     private JPanel subjectPanel;
@@ -37,6 +38,7 @@ public class ProgressTracker extends JFrame {
 
     private static final String DATA_FILE = "data/ProgressTracker.json";
 
+    // Constructs the progressTracker app.
     public ProgressTracker() {
         super("ProgressTracker");
         setLayout(new BorderLayout());
@@ -54,14 +56,16 @@ public class ProgressTracker extends JFrame {
         setSubjectPanel();
         setCardLayout();
 
-
         JLabel title = new JLabel("ProgressTracker");
-        add(title);
+        getContentPane().add(title, BorderLayout.PAGE_START);
         add(cardPanel);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         pack();
         setVisible(true);
     }
 
+    // MODIFIES: this
+    // EFFECTS: sets the cardlayout, adds the main panel and subject panel to cardpanel, the parent
     private void setCardLayout() {
         cardPanel.setLayout(cl);
         cardPanel.add(mainPanel, "1");
@@ -69,61 +73,78 @@ public class ProgressTracker extends JFrame {
         cl.show(cardPanel, "1");
     }
 
-
+    // MODIFIES: this
+    // EFFECTS: sets the main panel by adding a title label,
+    //                                        a list of buttons of each subject in the list of subjects,
+    //                                        and text boxes that let you add or delete a subject.
     public void setMainPanel() {
         mainPanel.setLayout(new BorderLayout());
         JLabel subjects = new JLabel("Subjects");
-        ListOfSubjectTool listOfSubjectTool = new ListOfSubjectTool(this, listOfSubjects);
+        losTool = new ListOfSubjectTool(this, listOfSubjects);
         mainPanel.add(subjects, BorderLayout.PAGE_START);
-        mainPanel.add(listOfSubjectTool, BorderLayout.CENTER);
+        mainPanel.add(losTool, BorderLayout.CENTER);
         mainPanel.add(addAndDeletePanel(), BorderLayout.PAGE_END);
     }
 
-
+    // MODIFIES: this
+    // EFFECTS: sets a subject's screen by adding a subject tool
     public void setSubjectPanel() {
         subjectPanel.setLayout(new BorderLayout());
-        SubjectTool subjectTool = new SubjectTool(this, currentSubject);
+        subjectTool = new SubjectTool(this, currentSubject);
         subjectPanel.add(subjectTool);
     }
 
-
+    // EFFECTS: creates a jpanel consisting of the addsubject panel and the deletesubject panel
     private JPanel addAndDeletePanel() {
         JPanel addAndDeletePanel = new JPanel();
+        addAndDeletePanel.setSize(FRAME_WIDTH / 2, 100);
         addAndDeletePanel.setSize(600, 100);
         addAndDeletePanel.add(addSubjectPanel());
         addAndDeletePanel.add(deleteSubjectPanel());
         return addAndDeletePanel;
     }
 
+    // EFFECTS: creates a jpanel that lets you add a subject by typing the subject's name in a text box.
     public JPanel addSubjectPanel() {
         JPanel addPanel = new JPanel();
-        JLabel add = new JLabel("Add a subject:");
+        JLabel addLabel = new JLabel("Add a subject:");
         JTextField addText = new JTextField();
-        addText.setSize(100, 80);
+        addText.setColumns(TEXTFIELD_WIDTH);
         addText.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String newSubject = addText.getText();
-                listOfSubjects.addSubject(new Subject(newSubject));
+                if (!(newSubject.equals(""))) {
+                    listOfSubjects.addSubject(new Subject(newSubject));
+                    System.out.println(newSubject + " has been created");
+                    addText.setText("");
+                    losTool.revalidate();
+                    losTool.repaint();
+                }
             }
         });
-        addPanel.add(add);
+        addPanel.add(addLabel);
         addPanel.add(addText);
         return addPanel;
     }
 
+    // EFFECTS: creates a jpanel that lets you delete a subject by typing the subject's name in a text box.
     public JPanel deleteSubjectPanel() {
         JPanel deletePanel = new JPanel();
         JLabel delete = new JLabel("Delete a subject:");
         JTextField deleteText = new JTextField();
-        deleteText.setSize(100, 20);
+        deleteText.setColumns(TEXTFIELD_WIDTH);
         deleteText.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String newSubject = deleteText.getText();
+                String deleteSubject = deleteText.getText();
                 for (Subject subject : listOfSubjects.getListOfSubjects()) {
-                    if (newSubject.equals(subject.getName())) {
+                    if (deleteSubject.equals(subject.getName())) {
                         listOfSubjects.getListOfSubjects().remove(subject);
+                        System.out.println(deleteSubject + " has been deleted");
+                        deleteText.setText("");
+                        losTool.revalidate();
+                        losTool.repaint();
                     }
                 }
             }
@@ -133,7 +154,10 @@ public class ProgressTracker extends JFrame {
         return deletePanel;
     }
 
-
+    // MODIFIES: this
+    // EFFECTS: opening optionpane of the program; asks if you would like to load from file.
+    // If yes, loads a listofsubjects
+    // If no, initializes a new listofsubjects
     public void loadDialogue() {
         int input = JOptionPane.showConfirmDialog(null, "Load from file?", "Load", JOptionPane.YES_NO_OPTION);
         if (input == 0) {           // Yes option
@@ -147,6 +171,7 @@ public class ProgressTracker extends JFrame {
         }
     }
 
+    // Getters
     public CardLayout getCardLayout() {
         return cl;
     }
@@ -167,10 +192,14 @@ public class ProgressTracker extends JFrame {
         return currentSubject;
     }
 
+    // Setters
     public void setCurrentSubject(Subject subject) {
         this.currentSubject = subject;
     }
 }
+
+// Phase 1 code
+
 //    private Scanner input;
 //    private ListOfSubjects listOfSubjects;
 //    private static final String DATA_FILE = "data/ProgressTracker.json";

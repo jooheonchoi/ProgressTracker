@@ -10,6 +10,8 @@ import java.io.IOException;
 // Represents tools that save and write onto a json file.
 public class Saver {
 
+    // MODIFIES: file
+    // EFFECTS: saves a given list of subjects to a given json file
     public static void saveListOfSubject(ListOfSubjects listOfSubjects, String fileName) throws IOException {
         Gson gson = new Gson();
         FileWriter fileWriter = new FileWriter(fileName);

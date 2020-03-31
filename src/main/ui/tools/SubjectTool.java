@@ -8,20 +8,27 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+// Represents a jpanel tool for a given subject.
 public class SubjectTool extends Tool {
 
     private Subject subject;
     private UpdateLogTable updateLogTable;
 
+    // EFFECTS: Constructs a subject tool for a given progressTracker and subject.
     public SubjectTool(ProgressTracker progressTracker, Subject subject) {
         super();
         this.progressTracker = progressTracker;
         this.subject = subject;
-        createPanel();
         updateLogTable = new UpdateLogTable(subject);
+        createPanel();
         add(updateLogTable);
     }
 
+
+    // MODIFIES: this
+    // EFFECTS: adds a "back" button (to go back to the main screen),
+    //          a label with this subject's name,
+    //          and a table of updates for this subject.
     @Override
     public void createPanel() {
         JButton backButton = new JButton("Back");
@@ -36,7 +43,5 @@ public class SubjectTool extends Tool {
         JLabel goalLabel = new JLabel("Goal: " + subject.getBigGoal());
         add(subjectLabel);
         add(goalLabel);
-
-        add(updateLogTable);
     }
 }

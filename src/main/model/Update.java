@@ -5,6 +5,7 @@ public class Update {
     private String report;
     private String nextGoal;
 
+    // EFFECTS: Constructs an update object with given report and next goal
     public Update(String report, String nextGoal) {
         this.report = report;
         this.nextGoal = nextGoal;
