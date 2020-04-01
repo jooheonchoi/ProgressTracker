@@ -1,3 +1,5 @@
+#### **I missed P3, please grade along with p4. The P3 commit for grading is named "P3 final"
+
 # ProgressTracker 
 
 ## Introduction
@@ -30,6 +32,7 @@ As a user, I want to be able to
 - optionally load my subjects and their progress logs
 
 ### Phase 3
+####Please
 #### Instructions for grader:
 This is a project based on adding Subject objects to a list in a ListOfSubject object.
 - You can generate the first required event by: typing in the name of a subject you want to 
