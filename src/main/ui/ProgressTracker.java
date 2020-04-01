@@ -2,14 +2,13 @@ package ui;
 
 import model.ListOfSubjects;
 import model.Subject;
-import model.Update;
 import persistence.Reader;
-import ui.tools.ListOfSubjectTool;
-import ui.tools.SubjectTool;
+import persistence.Saver;
+import ui.panels.ListOfSubjectHelperPanel;
+import ui.panels.SubjectHelperPanel;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.io.IOException;
 
 import javax.swing.*;
@@ -33,8 +32,8 @@ public class ProgressTracker extends JFrame {
     private CardLayout cl;
     private Subject currentSubject;
 
-    private ListOfSubjectTool losTool;
-    private SubjectTool subjectTool;
+    private ListOfSubjectHelperPanel losTool;
+    private SubjectHelperPanel subjectTool;
 
     private static final String DATA_FILE = "data/ProgressTracker.json";
 
@@ -47,7 +46,10 @@ public class ProgressTracker extends JFrame {
         mainPanel = new JPanel();
         subjectPanel = new JPanel();
         cardPanel = new JPanel();
-        currentSubject = new Subject("placeHolder");
+        currentSubject = null;
+
+        // Citation: inspiration from
+        // https://www.youtube.com/watch?v=sAReaaTxNGU&list=PLnWWOcNcMFpV5pzbJDf4r1cdKXU2zp52r&index=4&t=475s
         cl = new CardLayout();
 
         loadDialogue();
@@ -59,14 +61,25 @@ public class ProgressTracker extends JFrame {
         JLabel title = new JLabel("ProgressTracker");
         getContentPane().add(title, BorderLayout.PAGE_START);
         add(cardPanel);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        pack();
+        setCloseOptions();
+
         setVisible(true);
+
+    }
+
+    public void setCloseOptions() {
+        setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                saveDialogue();
+            }
+        });
     }
 
     // MODIFIES: this
     // EFFECTS: sets the cardlayout, adds the main panel and subject panel to cardpanel, the parent
-    private void setCardLayout() {
+    public void setCardLayout() {
         cardPanel.setLayout(cl);
         cardPanel.add(mainPanel, "1");
         cardPanel.add(subjectPanel, "2");
@@ -80,7 +93,7 @@ public class ProgressTracker extends JFrame {
     public void setMainPanel() {
         mainPanel.setLayout(new BorderLayout());
         JLabel subjects = new JLabel("Subjects");
-        losTool = new ListOfSubjectTool(this, listOfSubjects);
+        losTool = new ListOfSubjectHelperPanel(this, listOfSubjects);
         mainPanel.add(subjects, BorderLayout.PAGE_START);
         mainPanel.add(losTool, BorderLayout.CENTER);
         mainPanel.add(addAndDeletePanel(), BorderLayout.PAGE_END);
@@ -90,12 +103,27 @@ public class ProgressTracker extends JFrame {
     // EFFECTS: sets a subject's screen by adding a subject tool
     public void setSubjectPanel() {
         subjectPanel.setLayout(new BorderLayout());
-        subjectTool = new SubjectTool(this, currentSubject);
-        subjectPanel.add(subjectTool);
+//        subjectTool = new SubjectTool(this, currentSubject);
+//        subjectPanel.add(subjectTool);
+    }
+
+    public void updateSubjectPanel() {
+        if (!(subjectPanel.getComponentCount() == 0)) {
+            subjectPanel.remove(0);
+            subjectTool = new SubjectHelperPanel(this, currentSubject);
+            subjectPanel.add(subjectTool);
+            subjectTool.revalidate();
+            subjectTool.repaint();
+        } else {
+            subjectTool = new SubjectHelperPanel(this, currentSubject);
+            subjectPanel.add(subjectTool);
+            subjectTool.revalidate();
+            subjectTool.repaint();
+        }
     }
 
     // EFFECTS: creates a jpanel consisting of the addsubject panel and the deletesubject panel
-    private JPanel addAndDeletePanel() {
+    public JPanel addAndDeletePanel() {
         JPanel addAndDeletePanel = new JPanel();
         addAndDeletePanel.setSize(FRAME_WIDTH / 2, 100);
         addAndDeletePanel.setSize(600, 100);
@@ -115,11 +143,11 @@ public class ProgressTracker extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String newSubject = addText.getText();
                 if (!(newSubject.equals(""))) {
-                    listOfSubjects.addSubject(new Subject(newSubject));
-                    System.out.println(newSubject + " has been created");
-                    addText.setText("");
-                    losTool.revalidate();
-                    losTool.repaint();
+                    Subject s = new Subject(newSubject);
+                    if (listOfSubjects.addSubject(s)) {
+                        losTool.addSubjectButton();
+                        addText.setText("");
+                    }
                 }
             }
         });
@@ -137,16 +165,9 @@ public class ProgressTracker extends JFrame {
         deleteText.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String deleteSubject = deleteText.getText();
-                for (Subject subject : listOfSubjects.getListOfSubjects()) {
-                    if (deleteSubject.equals(subject.getName())) {
-                        listOfSubjects.getListOfSubjects().remove(subject);
-                        System.out.println(deleteSubject + " has been deleted");
-                        deleteText.setText("");
-                        losTool.revalidate();
-                        losTool.repaint();
-                    }
-                }
+                String name = deleteText.getText();
+                losTool.deleteSubjectButton(name);
+                deleteText.setText("");
             }
         });
         deletePanel.add(delete);
@@ -158,17 +179,70 @@ public class ProgressTracker extends JFrame {
     // EFFECTS: opening optionpane of the program; asks if you would like to load from file.
     // If yes, loads a listofsubjects
     // If no, initializes a new listofsubjects
+    // Citation: learned from mkyoung's tutorial on joptionpane
+    // https://mkyong.com/swing/java-swing-how-to-make-a-confirmation-dialog/
     public void loadDialogue() {
-        int input = JOptionPane.showConfirmDialog(null, "Load from file?", "Load", JOptionPane.YES_NO_OPTION);
-        if (input == 0) {           // Yes option
-            try {
-                listOfSubjects = Reader.reader(DATA_FILE);
-            } catch (IOException e) {
+        int input = JOptionPane.showConfirmDialog(null,
+                "Load from file?", "Load", JOptionPane.YES_NO_OPTION);
+
+        switch (input) {
+            case JOptionPane.YES_OPTION:
+                try {
+                    listOfSubjects = Reader.reader(DATA_FILE);
+                } catch (IOException e) {
+                    listOfSubjects = new ListOfSubjects();
+                }
+                break;
+            case JOptionPane.NO_OPTION:
                 listOfSubjects = new ListOfSubjects();
-            }
-        } else if (input == 1) {
-            listOfSubjects = new ListOfSubjects();
+                break;
+            case JOptionPane.CLOSED_OPTION:
+                System.exit(0);
         }
+    }
+//        if (input == 0) {           // Yes option
+//            try {
+//                listOfSubjects = Reader.reader(DATA_FILE);
+//            } catch (IOException e) {
+//                listOfSubjects = new ListOfSubjects();
+//            }
+//        } else if (input == 1) {
+//            listOfSubjects = new ListOfSubjects();
+//        }
+
+
+    public void saveDialogue() {
+        int input = JOptionPane.showConfirmDialog(null,
+                "Save to file?", "Save", JOptionPane.YES_NO_CANCEL_OPTION);
+
+        switch (input) {
+            case JOptionPane.YES_OPTION:
+                try {
+                    Saver.saveListOfSubject(listOfSubjects, DATA_FILE);
+                    System.exit(0);
+                } catch (IOException e) {
+                    JOptionPane.showMessageDialog(null,
+                            "Unable to save file.", "Save error", JOptionPane.ERROR_MESSAGE);
+                }
+                break;
+            case JOptionPane.NO_OPTION:
+                System.exit(0);
+                break;
+            default:
+                break;
+        }
+//        if (input == 0) {                    // Yes option
+//            try {
+//                Saver.saveListOfSubject(listOfSubjects, DATA_FILE);
+//            } catch (IOException e) {
+//                JOptionPane.showMessageDialog(null,
+//                        "Unable to save file.", "Save error", JOptionPane.ERROR_MESSAGE);
+//            }
+//        } else if (input == 1) {             // No option
+//            System.exit(0);
+//        } else {
+//            return;
+//        }
     }
 
     // Getters

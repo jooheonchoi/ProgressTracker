@@ -22,9 +22,16 @@ public class ListOfSubjects {
     }
 
     // MODIFIES: this
-    // EFFECTS: add a subject to the beginning of the list
-    public void addSubject(Subject subject) {
+    // EFFECTS: add a subject to the beginning of the list if the list doesn't already have a subject of the same name
+    //          and return true, otherwise return false
+    public boolean addSubject(Subject subject) {
+        for (Subject next : listOfSubjects) {
+            if (next.getName().equals(subject.getName())) {
+                return false;
+            }
+        }
         listOfSubjects.addFirst(subject);
+        return true;
     }
 
     // EFFECTS: return true if the list of subjects is empty

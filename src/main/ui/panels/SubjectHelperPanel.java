@@ -1,4 +1,4 @@
-package ui.tools;
+package ui.panels;
 
 
 import model.Subject;
@@ -9,13 +9,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 // Represents a jpanel tool for a given subject.
-public class SubjectTool extends Tool {
+public class SubjectHelperPanel extends HelperPanel {
 
     private Subject subject;
     private UpdateLogTable updateLogTable;
 
-    // EFFECTS: Constructs a subject tool for a given progressTracker and subject.
-    public SubjectTool(ProgressTracker progressTracker, Subject subject) {
+    // EFFECTS: Constructs a subject panel for a given progressTracker and subject.
+    public SubjectHelperPanel(ProgressTracker progressTracker, Subject subject) {
         super();
         this.progressTracker = progressTracker;
         this.subject = subject;
@@ -44,4 +44,6 @@ public class SubjectTool extends Tool {
         add(subjectLabel);
         add(goalLabel);
     }
+
+
 }

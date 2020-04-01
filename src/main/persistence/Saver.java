@@ -12,6 +12,7 @@ public class Saver {
 
     // MODIFIES: file
     // EFFECTS: saves a given list of subjects to a given json file
+    // Citation: Inspired by tutorial by mkyoung
     public static void saveListOfSubject(ListOfSubjects listOfSubjects, String fileName) throws IOException {
         Gson gson = new Gson();
         FileWriter fileWriter = new FileWriter(fileName);

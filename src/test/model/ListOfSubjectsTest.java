@@ -27,10 +27,10 @@ public class ListOfSubjectsTest {
 
     @Test
     void testAddSubject() {
-        los1.addSubject(s1);
+        assertTrue(los1.addSubject(s1));
         assertEquals(s1, los1.getListOfSubjects().getFirst());
-        los1.addSubject(s2);
-        assertEquals(s2, los1.getListOfSubjects().getFirst());
+        assertFalse(los1.addSubject(s1));
+        assertEquals(s1, los1.getListOfSubjects().getFirst());
     }
 
     @Test

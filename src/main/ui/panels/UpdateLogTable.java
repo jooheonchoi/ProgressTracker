@@ -1,4 +1,4 @@
-package ui.tools;
+package ui.panels;
 
 import model.Subject;
 import model.Update;
@@ -23,9 +23,13 @@ public class UpdateLogTable extends JPanel {
 
         String[] columns = {"Report", "Next Week's Goal"};
 
+        // Citation: I learned of the defaultTableModel from Piazza and code inspired by
+        // https://stackoverflow.com/questions/20526917/load-arraylist-data-into-jtable
         model = new DefaultTableModel(columns, 0);
         JTable table = new JTable(model);
         updateRows();
+
+        // Citation: simple table demo on java swing tutorials
         table.setPreferredScrollableViewportSize(new Dimension(500, 70));
         table.setFillsViewportHeight(true);
 
@@ -67,9 +71,11 @@ public class UpdateLogTable extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 if (!((reportText.getText().equals("")) || (nextWeekText.getText().equals("")))) {
                     subject.addUpdate(new Update(reportText.getText(), nextWeekText.getText()));
+                    Object[] row = new Object[2];
+                    row[0] = reportText.getText();
+                    row[1] = nextWeekText.getText();
+                    model.insertRow(0, row);
                 }
-                revalidate();
-                repaint();
             }
         });
         updatePanel.add(addReportButton);
