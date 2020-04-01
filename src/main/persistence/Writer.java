@@ -8,7 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 // Represents tools that save and write onto a json file.
-public class Saver {
+public class Writer {
 
     // MODIFIES: file
     // EFFECTS: saves a given list of subjects to a given json file
@@ -22,14 +22,4 @@ public class Saver {
 }
 
 
-//        String serialized = gson.toJson(listOfSubjects);
-//        try {
-//            FileWriter fileWriter = new FileWriter(fileName);
-//            fileWriter.write(serialized);
-//            fileWriter.flush();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
-//}
 

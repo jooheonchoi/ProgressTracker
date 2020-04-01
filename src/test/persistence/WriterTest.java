@@ -11,7 +11,7 @@ import java.io.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
-public class SaverTest {
+public class WriterTest {
     private static final String TEST_FILE = "data/test2.json";
     private ListOfSubjects listOfSubjects;
     private Subject subject;
@@ -33,7 +33,7 @@ public class SaverTest {
     @Test
     void testSaverExceptionNotThrown() {
         try {
-            Saver.saveListOfSubject(listOfSubjects, TEST_FILE);
+            Writer.saveListOfSubject(listOfSubjects, TEST_FILE);
 
             listOfSubjects = Reader.reader(TEST_FILE);
             subject = listOfSubjects.getListOfSubjects().getFirst();

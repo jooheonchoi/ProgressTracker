@@ -34,23 +34,55 @@ As a user, I want to be able to
 ### Phase 3
 #### Please see note at the top of the page regarding P3 grading!
 #### Instructions for grader:
-This is a project based on adding Subject objects to a list in a ListOfSubject object.
+This is a project based on adding Subject objects to a ListOfSubjects object.
 - You can generate the first required event by: typing in the name of a subject you want to 
 add in the textfield below and then pressing the enter key. This creates a button with that name in the list.
- Empty strings and duplicate names will not be added. You can delete an existing subject as well.
+ Empty strings and duplicate names will not be added. 
+ You can delete an existing subject and its button as well.
  
 - You can generate the second required event by: pressing the button of a subject.
 This takes you to the subject's page where you can add an entry to the table of updates.
-To add an update, make sure the top and bottom textfields aren't empty and then press 
+To add an update, make sure both textfields aren't empty and then press 
 the update button. This will add an update to the top of the table.
 
 - You can locate my visual component by: next to the word ProgressTracker in the screen,
 there is an image of a check mark that I added.
 
-- You can save the state of my application by: pressing the x button to close in the main window.
-This prompts a pop-up which asks you if you would like to save to file. The list of subjects is saved
+- You can save the state of my application by: when you press the x button to close the main window,
+a pop-up will ask you if you would like to save to file. The list of subjects is saved
 if you click yes.
 
 - You can reload the state of my application by: running the app initially. When you run the app,
 a pop-up will ask you if you would like to load from file. Clicking yes will bring up the 
-saved list of subjects.
+saved list of subjects and create its buttons.
+
+### Phase 4
+Task 2: I have a type hierarchy other than the "Saveable" from P2. I have made this hierarchy while
+working on my P3. In the panels package in ui, I have the abstract class "HelperPanel" which 
+represents a more complicated panel that will go into a panel in my ProgressTracker class (which
+extends JFrame). HelperPanel is extended by ListOfSubjectHelperPanel, which creates and deletes 
+buttons for each subject; and SubjectHelperPanel, which is a panel showing parts of the subject
+we are viewing, including a table of updates and options to add to it. UpdateTablePanel is a panel
+that is a component of SubjectHelperPanel, but I did not make it extend HelperPanel because
+it has a different layout and setup from what I wanted HelperPanels to have.
+
+
+Task 3: One issue I solved is implementing a type hierarchy for HelperPanel, as 
+described above. This is an issue I solved before P4 having no knowledge about 
+this task, which the instructor allowed.
+
+UML_Design_Diagram.jpg can be found in the root.
+I drew out my UML first to identify coupling issues and it wasn't looking great.
+I could not refactor my code, but instead I will talk about problems presented by the UML.
+
+As seen in the class diagram, there are way too many needless references many times crossing each other
+and it is redundant and a nightmare to debug. For example I could've instead made a list of HelperPanels 
+instead of having both its subclasses as fields. 
+
+
+#####Note to instructor:
+I had a lot of difficulty  with this project.
+After some personal issues and now the coronavirus, I fell behind in my courses and 
+I found it harder to reach out for help. My project is not perfect, but I 
+worked really hard to catch up and I hope it's worthy of a passing project grade.
+Thanks for the semester!

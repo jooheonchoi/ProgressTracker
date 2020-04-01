@@ -3,7 +3,7 @@ package ui;
 import model.ListOfSubjects;
 import model.Subject;
 import persistence.Reader;
-import persistence.Saver;
+import persistence.Writer;
 import ui.panels.ListOfSubjectHelperPanel;
 import ui.panels.SubjectHelperPanel;
 
@@ -241,7 +241,7 @@ public class ProgressTracker extends JFrame {
         switch (input) {
             case JOptionPane.YES_OPTION:
                 try {
-                    Saver.saveListOfSubject(listOfSubjects, DATA_FILE);
+                    Writer.saveListOfSubject(listOfSubjects, DATA_FILE);
                     System.exit(0);
                 } catch (IOException e) {
                     JOptionPane.showMessageDialog(null,
@@ -265,20 +265,18 @@ public class ProgressTracker extends JFrame {
         return cardPanel;
     }
 
-    public JPanel getMainPanel() {
-        return mainPanel;
-    }
-
-    public JPanel getSubjectPanel() {
-        return subjectPanel;
-    }
-
-    public Subject getCurrentSubject() {
-        return currentSubject;
-    }
-
     // Setters
     public void setCurrentSubject(Subject subject) {
         this.currentSubject = subject;
+    }
+
+    public static void main(String[] args) {
+
+        // Citation: invoke learned from java swing tutorials (too many to count)
+        javax.swing.SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                new ProgressTracker();
+            }
+        });
     }
 }
