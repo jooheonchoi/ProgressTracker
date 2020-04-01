@@ -12,16 +12,16 @@ import java.awt.event.ActionListener;
 public class SubjectHelperPanel extends HelperPanel {
 
     private Subject subject;
-    private UpdateLogTable updateLogTable;
+    private UpdateTablePanel updateTablePanel;
 
     // EFFECTS: Constructs a subject panel for a given progressTracker and subject.
     public SubjectHelperPanel(ProgressTracker progressTracker, Subject subject) {
         super();
         this.progressTracker = progressTracker;
         this.subject = subject;
-        updateLogTable = new UpdateLogTable(subject);
+        updateTablePanel = new UpdateTablePanel(subject);
         createPanel();
-        add(updateLogTable);
+        add(updateTablePanel);
     }
 
 
@@ -39,9 +39,11 @@ public class SubjectHelperPanel extends HelperPanel {
             }
         });
         add(backButton);
+
         JLabel subjectLabel = new JLabel(subject.getName());
         JLabel goalLabel = new JLabel("Goal: " + subject.getBigGoal());
         add(subjectLabel);
+
         add(goalLabel);
     }
 

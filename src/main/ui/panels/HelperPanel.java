@@ -4,18 +4,19 @@ import ui.ProgressTracker;
 
 import javax.swing.*;
 
+import static ui.ProgressTracker.FRAME_HEIGHT;
+import static ui.ProgressTracker.FRAME_WIDTH;
+
 // Represents an abstract for tools that are jpanels.
 public abstract class HelperPanel extends JPanel {
 
-    protected static final int PANEL_WIDTH = 200;
-    protected static final int PANEL_HEIGHT = 200;
     protected ProgressTracker progressTracker;
 
-    // EFFECTS: Constructs a jpanel tool with a layout and dimension.
+    // EFFECTS: Constructs a jpanel helper with a layout and dimension.
     public HelperPanel() {
         super();
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        setSize(PANEL_WIDTH, PANEL_HEIGHT);
+        setSize(FRAME_WIDTH, FRAME_HEIGHT * 5 / 6);
     }
 
     // EFFECTS: creates a jpanel for this tool

@@ -2,6 +2,7 @@ package ui.panels;
 
 import model.Subject;
 import model.Update;
+import ui.ProgressTracker;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -9,16 +10,18 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+
+
 // Represents a jpanel for an updatelog.
-public class UpdateLogTable extends JPanel {
+public class UpdateTablePanel extends JPanel {
 
     private Subject subject;
+    private static final int DISTANCE_BETWEEN_TEXTFIELD = 40;
     DefaultTableModel model;
 
     // EFFECTS: Constructs a jpanel for the table and associating elements of a subject's update log.
-    public UpdateLogTable(Subject subject) {
+    public UpdateTablePanel(Subject subject) {
         super(new GridLayout(1, 0));
-//        super(new BorderLayout());
         this.subject = subject;
 
         String[] columns = {"Report", "Next Week's Goal"};
@@ -30,10 +33,8 @@ public class UpdateLogTable extends JPanel {
         updateRows();
 
         // Citation: simple table demo on java swing tutorials
-        table.setPreferredScrollableViewportSize(new Dimension(500, 70));
+        table.setPreferredScrollableViewportSize(new Dimension(ProgressTracker.FRAME_WIDTH, 70));
         table.setFillsViewportHeight(true);
-
-
         JScrollPane scrollPane = new JScrollPane(table);
         addUpdatePanel(makeUpdatePanel(), makeReportPanel(), makeNextWeekPanel());
         add(scrollPane);
@@ -57,16 +58,26 @@ public class UpdateLogTable extends JPanel {
     public void addUpdatePanel(JPanel updatePanel, JPanel reportPanel, JPanel nextWeekPanel) {
 
         JTextField reportText = new JTextField();
-        reportText.setColumns(30);
+        reportText.setColumns(15);
         JTextField nextWeekText = new JTextField();
-        nextWeekText.setColumns(30);
+        nextWeekText.setColumns(15);
 
         reportPanel.add(reportText);
         nextWeekPanel.add(nextWeekText);
+
         updatePanel.add(reportPanel);
         updatePanel.add(nextWeekPanel);
-        JButton addReportButton = new JButton("Add Update");
-        addReportButton.addActionListener(new ActionListener() {
+
+        JButton addUpdateButton = getAddUpdateButton(reportText, nextWeekText);
+        addUpdateButton.setBounds(0, DISTANCE_BETWEEN_TEXTFIELD * 2, ProgressTracker.FRAME_WIDTH / 2,
+                DISTANCE_BETWEEN_TEXTFIELD);
+        updatePanel.add(addUpdateButton);
+        add(updatePanel);
+    }
+
+    public JButton getAddUpdateButton(JTextField reportText, JTextField nextWeekText) {
+        JButton addUpdateButton = new JButton("Add Update");
+        addUpdateButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (!((reportText.getText().equals("")) || (nextWeekText.getText().equals("")))) {
@@ -78,13 +89,13 @@ public class UpdateLogTable extends JPanel {
                 }
             }
         });
-        updatePanel.add(addReportButton);
-        add(updatePanel);
+        return addUpdateButton;
     }
 
     // EFFECTS: make a jpanel with an updatepanel's label
     public JPanel makeUpdatePanel() {
         JPanel updatePanel = new JPanel();
+        updatePanel.setLayout(null);
         JLabel label = new JLabel("New Update:");
         updatePanel.add(label);
         return updatePanel;
@@ -93,6 +104,8 @@ public class UpdateLogTable extends JPanel {
     // EFFECTS: make a jpanel with a report's label
     public JPanel makeReportPanel() {
         JPanel reportPanel = new JPanel();
+        reportPanel.setLayout(new FlowLayout());
+        reportPanel.setBounds(0, 0, ProgressTracker.FRAME_WIDTH / 2, DISTANCE_BETWEEN_TEXTFIELD);
         JLabel label = new JLabel("Report:");
         reportPanel.add(label);
         return reportPanel;
@@ -101,7 +114,9 @@ public class UpdateLogTable extends JPanel {
     // EFFECTS: make a jpanel with a next week's goal's label
     public JPanel makeNextWeekPanel() {
         JPanel nextWeekPanel = new JPanel();
-        JLabel label = new JLabel("Goal for next week:");
+        JLabel label = new JLabel("Next week's goal: ");
+        nextWeekPanel.setBounds(0, DISTANCE_BETWEEN_TEXTFIELD,
+                ProgressTracker.FRAME_WIDTH / 2, DISTANCE_BETWEEN_TEXTFIELD);
         nextWeekPanel.add(label);
         return nextWeekPanel;
     }

@@ -22,49 +22,67 @@ import javax.swing.*;
 public class ProgressTracker extends JFrame {
 
     private ListOfSubjects listOfSubjects;
-    private static final int FRAME_WIDTH = 600;
-    private static final int FRAME_HEIGHT = 700;
+    public static final int FRAME_WIDTH = 700;
+    public static final int FRAME_HEIGHT = 900;
     private static final int TEXTFIELD_WIDTH = 40;
 
+    private ImageIcon check;
     private JPanel mainPanel;
     private JPanel subjectPanel;
     private JPanel cardPanel;
     private CardLayout cl;
     private Subject currentSubject;
 
-    private ListOfSubjectHelperPanel losTool;
-    private SubjectHelperPanel subjectTool;
+    private ListOfSubjectHelperPanel losHelper;
+    private SubjectHelperPanel subjectHelper;
 
     private static final String DATA_FILE = "data/ProgressTracker.json";
 
     // Constructs the progressTracker app.
     public ProgressTracker() {
         super("ProgressTracker");
-        setLayout(new BorderLayout());
-        setSize(FRAME_WIDTH, FRAME_HEIGHT);
-
-        mainPanel = new JPanel();
-        subjectPanel = new JPanel();
-        cardPanel = new JPanel();
-        currentSubject = null;
-
-        // Citation: inspiration from
-        // https://www.youtube.com/watch?v=sAReaaTxNGU&list=PLnWWOcNcMFpV5pzbJDf4r1cdKXU2zp52r&index=4&t=475s
-        cl = new CardLayout();
+        initializeFields();
 
         loadDialogue();
 
         setMainPanel();
         setSubjectPanel();
         setCardLayout();
+        setTitlePanel();
+    }
+
+    public void initializeFields() {
+        check = new ImageIcon("data/checkIcon.png");
+        mainPanel = new JPanel();
+        subjectPanel = new JPanel();
+        cardPanel = new JPanel();
+        currentSubject = null;
+
+        // Citation: CardLayout inspiration from
+        // https://www.youtube.com/watch?v=sAReaaTxNGU&list=PLnWWOcNcMFpV5pzbJDf4r1cdKXU2zp52r&index=4&t=475s
+        cl = new CardLayout();
+    }
+
+    public void setTitlePanel() {
+        setLayout(new BorderLayout());
+        setSize(FRAME_WIDTH, FRAME_HEIGHT);
+
+        JPanel titlePanel = new JPanel();
+        titlePanel.setBounds(0, 0, FRAME_WIDTH, FRAME_HEIGHT / 6);
 
         JLabel title = new JLabel("ProgressTracker");
-        getContentPane().add(title, BorderLayout.PAGE_START);
-        add(cardPanel);
+        title.setFont(new Font(title.getFont().getName(), Font.BOLD, 30));
+
+        JLabel image = new JLabel(check);
+        image.setPreferredSize(new Dimension(30,30));
+
+        titlePanel.add(title);
+        titlePanel.add(image);
+        add(titlePanel, BorderLayout.PAGE_START);
+        add(cardPanel, BorderLayout.CENTER);
         setCloseOptions();
 
         setVisible(true);
-
     }
 
     public void setCloseOptions() {
@@ -93,9 +111,9 @@ public class ProgressTracker extends JFrame {
     public void setMainPanel() {
         mainPanel.setLayout(new BorderLayout());
         JLabel subjects = new JLabel("Subjects");
-        losTool = new ListOfSubjectHelperPanel(this, listOfSubjects);
+        losHelper = new ListOfSubjectHelperPanel(this, listOfSubjects);
         mainPanel.add(subjects, BorderLayout.PAGE_START);
-        mainPanel.add(losTool, BorderLayout.CENTER);
+        mainPanel.add(losHelper, BorderLayout.CENTER);
         mainPanel.add(addAndDeletePanel(), BorderLayout.PAGE_END);
     }
 
@@ -110,15 +128,15 @@ public class ProgressTracker extends JFrame {
     public void updateSubjectPanel() {
         if (!(subjectPanel.getComponentCount() == 0)) {
             subjectPanel.remove(0);
-            subjectTool = new SubjectHelperPanel(this, currentSubject);
-            subjectPanel.add(subjectTool);
-            subjectTool.revalidate();
-            subjectTool.repaint();
+            subjectHelper = new SubjectHelperPanel(this, currentSubject);
+            subjectPanel.add(subjectHelper);
+            subjectHelper.revalidate();
+            subjectHelper.repaint();
         } else {
-            subjectTool = new SubjectHelperPanel(this, currentSubject);
-            subjectPanel.add(subjectTool);
-            subjectTool.revalidate();
-            subjectTool.repaint();
+            subjectHelper = new SubjectHelperPanel(this, currentSubject);
+            subjectPanel.add(subjectHelper);
+            subjectHelper.revalidate();
+            subjectHelper.repaint();
         }
     }
 
@@ -137,7 +155,7 @@ public class ProgressTracker extends JFrame {
         JPanel addPanel = new JPanel();
         JLabel addLabel = new JLabel("Add a subject:");
         JTextField addText = new JTextField();
-        addText.setColumns(TEXTFIELD_WIDTH);
+        addText.setColumns(TEXTFIELD_WIDTH / 4);
         addText.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -145,7 +163,7 @@ public class ProgressTracker extends JFrame {
                 if (!(newSubject.equals(""))) {
                     Subject s = new Subject(newSubject);
                     if (listOfSubjects.addSubject(s)) {
-                        losTool.addSubjectButton();
+                        losHelper.addSubjectButton();
                         addText.setText("");
                     }
                 }
@@ -161,12 +179,12 @@ public class ProgressTracker extends JFrame {
         JPanel deletePanel = new JPanel();
         JLabel delete = new JLabel("Delete a subject:");
         JTextField deleteText = new JTextField();
-        deleteText.setColumns(TEXTFIELD_WIDTH);
+        deleteText.setColumns(TEXTFIELD_WIDTH / 4);
         deleteText.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String name = deleteText.getText();
-                losTool.deleteSubjectButton(name);
+                losHelper.deleteSubjectButton(name);
                 deleteText.setText("");
             }
         });
@@ -231,18 +249,6 @@ public class ProgressTracker extends JFrame {
             default:
                 break;
         }
-//        if (input == 0) {                    // Yes option
-//            try {
-//                Saver.saveListOfSubject(listOfSubjects, DATA_FILE);
-//            } catch (IOException e) {
-//                JOptionPane.showMessageDialog(null,
-//                        "Unable to save file.", "Save error", JOptionPane.ERROR_MESSAGE);
-//            }
-//        } else if (input == 1) {             // No option
-//            System.exit(0);
-//        } else {
-//            return;
-//        }
     }
 
     // Getters
@@ -271,206 +277,3 @@ public class ProgressTracker extends JFrame {
         this.currentSubject = subject;
     }
 }
-
-// Phase 1 code
-
-//    private Scanner input;
-//    private ListOfSubjects listOfSubjects;
-//    private static final String DATA_FILE = "data/ProgressTracker.json";
-
-//    public ProgressTracker() {
-//        runApp();
-
-
-//    private void runApp() {         // based on TellerApp ui class
-//        boolean keepGoing = true;
-//        String command = null;
-//        input = new Scanner(System.in);
-//
-//        System.out.println("Track your progress with the ProgressTracker!");
-//
-//        loadOption();
-//
-//        while (keepGoing) {
-//
-//            displayMenu(); // from TellerApp
-//            command = input.nextLine();
-//            if (command.equals("q")) {
-//                saveOption();
-//                keepGoing = false;
-//            } else {
-//                processCommand(command);
-//            }
-//        }
-//        System.out.println("\nSee you next time!");
-//    }
-//
-//    public void saveOption() {
-//        String command = "";             // from TellerApp
-//        while (!((command.equals("y") || (command.equals("n"))))) {
-//            System.out.println("Save to file?");
-//            System.out.println("y -> yes");
-//            System.out.println("n -> no");
-//            command = input.nextLine();
-//            if (command.equals("y")) {
-//                try {
-//                    Saver.saveListOfSubject(listOfSubjects, DATA_FILE);
-//                    return;
-//                } catch (IOException e) {
-//                    System.out.println("File doesn't exist");
-//                    return;
-//                }
-//            }
-//            if (command.equals("n")) {
-//                return;
-//
-//
-//            }
-//        }
-//    }
-//
-//    public void loadOption() {
-//        String command = "";             // from TellerApp
-//        while (!((command.equals("y") || (command.equals("n"))))) {
-//            System.out.println("Load from file?");
-//            System.out.println("y -> yes");
-//            System.out.println("n -> no");
-//            command = input.nextLine();
-//            if (command.equals("y")) {
-//                try {
-//                    listOfSubjects = Reader.reader(DATA_FILE);
-//                    return;
-//                } catch (IOException e) {
-//                    System.out.println("Nothing in file");
-//                    init();
-//                    return;
-//                }
-//            }
-//            if (command.equals("n")) {
-//                init();
-//                return;
-//            }
-//        }
-//    }
-//
-//
-//    public void init() {
-//        System.out.println("Initializing..");
-//        listOfSubjects = new ListOfSubjects();
-//    }
-//
-//    private void processCommand(String command) {
-//        if (command.equals("a")) {
-//            addNewSubject();
-//            return;
-//        } else if (command.equals("r")) {
-//            removeSubject();
-//            return;
-//        } else {
-//            for (Subject next : listOfSubjects.getListOfSubjects()) {
-//                if (command.equals(next.getName())) {
-//                    viewSubject(next);
-//                    return;
-//                }
-//            }
-//        }
-//        System.out.println("Enter valid command!");
-//    }
-//
-//    private void removeSubject() {
-//        if (listOfSubjects.isEmpty()) {
-//            System.out.println("No subjects yet!");
-//        } else {
-//            String command = "";
-//            while (!((command.equals("q")))) {
-//                System.out.println("Type name of subject to be removed:");
-//                System.out.println("q - > back");
-//                command = input.nextLine();
-//
-//                for (Subject next : listOfSubjects.getListOfSubjects()) {
-//                    if (command.equals(next.getName())) {
-//                        listOfSubjects.getListOfSubjects().remove(next);
-//                        System.out.println("Removed " + next.getName() + "!");
-//                        return;
-//                    }
-//                }
-//                System.out.println(command + " not found!");
-//            }
-//        }
-//    }
-//
-//    private void viewSubject(Subject subject) {
-//        Boolean keepInView = true;
-//        while (keepInView) {
-//            displaySubject(subject);
-//            String command = "";             // from TellerApp
-//            while (!((command.equals("s") || (command.equals("u")) || (command.equals("q"))))) {
-//                System.out.println("s -> Set a goal");
-//                System.out.println("u -> Post an update");
-//                System.out.println("q -> Back");
-//                command = input.nextLine();
-//            }
-//
-//            if (command.equals("s")) {
-//                goalSetter(subject);
-//            } else if (command.equals("u")) {
-//                postUpdate(subject);
-//            } else {
-//                keepInView = false;
-//            }
-//        }
-//    }
-//
-//    private void displaySubject(Subject subject) {
-//        System.out.println(subject.getName());
-//        System.out.println("Current Goal: " + subject.getBigGoal() + "\n");
-//        for (Update update : subject.getUpdateLog()) {
-//            System.out.println(update.getReport() + "\t||\t" + update.getNextGoal());
-//        }
-//    }
-//
-//    private void postUpdate(Subject subject) {
-//        System.out.println("Description of update:");
-//        String description = input.nextLine();
-//
-//        System.out.println("Goal for next update:");
-//        String nextGoal = input.nextLine();
-//
-//        Update newUpdate = new Update(description, nextGoal);
-//        subject.addUpdate(newUpdate);
-//        System.out.println("Update added!");
-//    }
-//
-//
-//    private void goalSetter(Subject subject) {
-//        System.out.println("Set a goal:");
-//        String goal = input.nextLine();
-//        subject.setBigGoal(goal);
-//        System.out.println("Goal set!");
-//    }
-//
-//    private void addNewSubject() {
-//        System.out.println("Choose name of subject:");
-//        String name = input.nextLine();
-//        Subject newSubject = new Subject(name);
-//        listOfSubjects.addSubject(newSubject);
-//        System.out.println(name + " added!");
-//        viewSubject(newSubject);
-//    }
-//
-//    private void displayMenu() {
-//        if (listOfSubjects == null) {
-//            init();
-//        } else if (listOfSubjects.isEmpty()) {
-//            System.out.println("Nothing added yet");
-//        } else {
-//            for (Subject next : listOfSubjects.getListOfSubjects()) {
-//                System.out.println(next.getName());
-//            }
-//        }
-//
-//        System.out.println("\nType subject name -> View subject");
-//        System.out.println("a -> Add subject");
-//        System.out.println("r -> Remove subject");
-//        System.out.println("q -> Exit");
-//    }

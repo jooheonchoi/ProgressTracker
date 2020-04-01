@@ -79,11 +79,3 @@ public class ListOfSubjectHelperPanel extends HelperPanel {
 }
 
 
-//    private class ListOfSubjectToolHandler implements ActionListener {
-//
-//        @Override
-//        public void actionPerformed(ActionEvent e) {
-//            progressTracker.removeAll();
-//        }
-//    }
-
