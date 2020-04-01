@@ -51,6 +51,8 @@ public class ProgressTracker extends JFrame {
         setTitlePanel();
     }
 
+    // MODIFIES: this
+    // EFFECTS: instantiates the fields.
     public void initializeFields() {
         check = new ImageIcon("data/checkIcon.png");
         mainPanel = new JPanel();
@@ -63,6 +65,11 @@ public class ProgressTracker extends JFrame {
         cl = new CardLayout();
     }
 
+    // MODIFIES: this
+    // EFFECTS: sets this frame; sets its layout and size,
+    //                           initializes a panel for the title and the check-image,
+    //                           adds the title panel and card panel to this frame,
+    //                           ands sets closing actions before setting to visible.
     public void setTitlePanel() {
         setLayout(new BorderLayout());
         setSize(FRAME_WIDTH, FRAME_HEIGHT);
@@ -74,7 +81,7 @@ public class ProgressTracker extends JFrame {
         title.setFont(new Font(title.getFont().getName(), Font.BOLD, 30));
 
         JLabel image = new JLabel(check);
-        image.setPreferredSize(new Dimension(30,30));
+        image.setPreferredSize(new Dimension(30, 30));
 
         titlePanel.add(title);
         titlePanel.add(image);
@@ -85,6 +92,8 @@ public class ProgressTracker extends JFrame {
         setVisible(true);
     }
 
+    // MODIFIES: this
+    // EFFECTS: sets closing actions for this frame.
     public void setCloseOptions() {
         setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
@@ -121,10 +130,11 @@ public class ProgressTracker extends JFrame {
     // EFFECTS: sets a subject's screen by adding a subject tool
     public void setSubjectPanel() {
         subjectPanel.setLayout(new BorderLayout());
-//        subjectTool = new SubjectTool(this, currentSubject);
-//        subjectPanel.add(subjectTool);
     }
 
+    // MODIFIES: this
+    // EFFECTS: updates the subject panel so that: adds a subjecthelper panel if it doesn't have any panels in it yet
+    //                                             or removes old subjecthelper and adds a new one.
     public void updateSubjectPanel() {
         if (!(subjectPanel.getComponentCount() == 0)) {
             subjectPanel.remove(0);
@@ -218,17 +228,12 @@ public class ProgressTracker extends JFrame {
                 System.exit(0);
         }
     }
-//        if (input == 0) {           // Yes option
-//            try {
-//                listOfSubjects = Reader.reader(DATA_FILE);
-//            } catch (IOException e) {
-//                listOfSubjects = new ListOfSubjects();
-//            }
-//        } else if (input == 1) {
-//            listOfSubjects = new ListOfSubjects();
-//        }
 
-
+    // MODIFIES: data file
+    // EFFECTS: shows an option pane with yes, no, and cancel options, asking if you would like to save to file.
+    //          If yes is pressed, save current listofsubjects to data file before exiting.
+    //          If no, exit and don't save.
+    //          Cancel and close will close the option pane.
     public void saveDialogue() {
         int input = JOptionPane.showConfirmDialog(null,
                 "Save to file?", "Save", JOptionPane.YES_NO_CANCEL_OPTION);

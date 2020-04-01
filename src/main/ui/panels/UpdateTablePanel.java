@@ -75,6 +75,9 @@ public class UpdateTablePanel extends JPanel {
         add(updatePanel);
     }
 
+    // MODIFIES: this
+    // EFFECTS: adds a jbutton to add an update. If neither string is empty, then make an update from the strings
+    //          from the text fields and add to model
     public JButton getAddUpdateButton(JTextField reportText, JTextField nextWeekText) {
         JButton addUpdateButton = new JButton("Add Update");
         addUpdateButton.addActionListener(new ActionListener() {

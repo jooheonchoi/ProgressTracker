@@ -7,7 +7,7 @@ import javax.swing.*;
 import static ui.ProgressTracker.FRAME_HEIGHT;
 import static ui.ProgressTracker.FRAME_WIDTH;
 
-// Represents an abstract for tools that are jpanels.
+// Represents an abstract for helper panels that are jpanels.
 public abstract class HelperPanel extends JPanel {
 
     protected ProgressTracker progressTracker;
