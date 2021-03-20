@@ -1,5 +1,6 @@
 # ProgressTracker 
 *This interface is a skeleton (not complete!)*
+
 ProgressTracker was a project for a software construction class in 2019. GUI to be updated!
 
 
@@ -54,23 +55,3 @@ if you click yes.
 - You can reload the state of my application by: running the app initially. When you run the app,
 a pop-up will ask you if you would like to load from file. Clicking yes will bring up the 
 saved list of subjects and create its buttons.
-
-### Phase 4
-Task 2: I have a type hierarchy other than the "Saveable" from P2. I have made this hierarchy while
-working on my P3. In the panels package in ui, I have the abstract class "HelperPanel" which 
-represents a more complicated panel that will go into a panel in my ProgressTracker class (which
-extends JFrame). HelperPanel is extended by ListOfSubjectHelperPanel, which creates and deletes 
-buttons for each subject; and SubjectHelperPanel, which is a panel showing parts of the subject
-we are viewing, including a table of updates and options to add to it. UpdateTablePanel is a panel
-that is a component of SubjectHelperPanel, but I did not make it extend HelperPanel because
-it has a different layout and setup from what I wanted HelperPanels to have.
-
-
-Task 3: One issue I solved is implementing a type hierarchy for HelperPanel, as 
-described above. This is an issue I solved before P4 having no knowledge about 
-this task, which the instructor allowed.
-
-UML_Design_Diagram.jpg can be found in the root.
-I drew out my UML first to identify coupling issues and it wasn't looking great.
-I could not refactor my code, but instead I will talk about problems presented by the UML.
-
