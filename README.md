@@ -1,6 +1,8 @@
-#### **I missed P3, please grade along with p4. The P3 commit for grading is named "P3 done - readme updated" 
-
 # ProgressTracker 
+*This interface is a skeleton (not complete!)*
+ProgressTracker was a project for a software construction class in 2019. GUI to be updated!
+
+
 
 ## Introduction
 
@@ -31,9 +33,6 @@ As a user, I want to be able to
 - save my list of subjects and their progress logs 
 - optionally load my subjects and their progress logs
 
-### Phase 3
-#### Please see note at the top of the page regarding P3 grading!
-#### Instructions for grader:
 This is a project based on adding Subject objects to a ListOfSubjects object.
 - You can generate the first required event by: typing in the name of a subject you want to 
 add in the textfield below and then pressing the enter key. This creates a button with that name in the list.
@@ -75,14 +74,3 @@ UML_Design_Diagram.jpg can be found in the root.
 I drew out my UML first to identify coupling issues and it wasn't looking great.
 I could not refactor my code, but instead I will talk about problems presented by the UML.
 
-As seen in the class diagram, there are way too many needless references many times crossing each other
-and it is redundant and a nightmare to debug. For example I could've instead made a list of HelperPanels 
-instead of having both its subclasses as fields. 
-
-
-#####Note to instructor:
-I had a lot of difficulty  with this project.
-After some personal issues and now the coronavirus, I fell behind in my courses and 
-I found it harder to reach out for help. My project is not perfect, but I 
-worked really hard to catch up and I hope it's worthy of a passing project grade.
-Thanks for the semester!
