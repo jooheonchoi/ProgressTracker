@@ -51,6 +51,7 @@ public class ProgressTracker extends JFrame {
         setTitlePanel();
     }
 
+    
     // MODIFIES: this
     // EFFECTS: instantiates the fields.
     public void initializeFields() {
